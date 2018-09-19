@@ -184,15 +184,8 @@ void restart(GameBoard *board,struct Command *com){
 int autofill(GameBoard * board){
 	/*TODO relate to erroneous board status
      * TODO relate to autofilling the last open slot so the game is over after this command
-     *
-     * - כאשר מבצעים פקודת autofill, במידה והשתנה לפחות תא אחד, יש להוסיף איבר יחיד לרשימת ה-undo/redo (לא משנה כמה תאים עודכנו ע"י הפקודה)
-- במידה ומבצעים undo או redo לאיבר הזה, יתעדכנו בבת אחת כל התאים שהפקודה השפיעה עליהם.
-- ההדפסה תהיה זהה לפקודת undo/redo רגילה, רק שיודפסו מס' שורות בבת אחת עבור זה - לפי סדר העדכון (כלומר, ההדפסה של undo/redo תמיד תהיה באותו סדר כמו ההדפסה שהופיעה לפקודת ה-autofill עצמה)
-- מומלץ לחשוב על פתרון גנרי כך שלא יהיה הבדל (מבחינת פקודת undo/redo) בין איבר שהתווסף ע"י set לכזה שהתווסף ע"י autofill
+     */
 
-edit
-
-    */
 	int N = board->N;
 	int row = 0;
 	int col = 0;
@@ -372,6 +365,14 @@ int start_game(GameBoard *board,struct Command *com){
 
 		}
 		return 0;
+}
+
+/*Once Calles, recieves the active commands and board, frees memory and exits*/
+void exit(GameBoard * board, struct Command * comm){
+    printf("Exiting...\n");
+    freeGameboard(board);
+    freeCommand(comm);
+    exit(1);
 }
 
 
