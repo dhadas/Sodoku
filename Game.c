@@ -375,5 +375,3 @@ void exit_game(GameBoard * board, struct Command * comm){
     freeCommand(comm);
     exit(1);
 }
-
-

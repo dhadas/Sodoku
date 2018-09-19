@@ -463,4 +463,3 @@ int is_board_erroneous(GameBoard * board){
     printf("Board is valid\n");
     return FALSE;
 }
-
