@@ -295,7 +295,7 @@ GameBoard *execute(struct Command *com,GameBoard *board){
         case 6:
             if (board->mode == 0) break;
             fptr = fopen(com->x, "w");
-            Save(board, fptr);break;
+            Save(board, fptr, com->x);break;
         case 7:
             if (is_valid_file(com->x) == TRUE) {
                 freeGameboard(board); board = Load(com->x);board->node = head; board->mode = 1;validate_board(board); start_game(board, com);

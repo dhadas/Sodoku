@@ -138,7 +138,7 @@ int validate_board(GameBoard *board){
  * Saves the game
  */
 
-void Save(GameBoard* board, FILE *file) {
+void Save(GameBoard* board, FILE *file, char * name) {
 
 	int i = 0;
 	int n = board->N;
@@ -150,11 +150,15 @@ void Save(GameBoard* board, FILE *file) {
 	{
 		printf("Error:File cannot be created or modified\n");
 	}
+
+
 	fprintf(file,"%d %d\n",board->block_rows,board->block_cols);
 	for(; i < n; i++){
 		save_line(board->current, i, board->N,file,board->mode);
 	}
 	fclose(file);
+
+	printf("Saved to: %s\n", name);
 }
 /*
  * loads the new board
