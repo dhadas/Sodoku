@@ -1,0 +1,30 @@
+CC = gcc
+OBJS = Game.o Parser.o Solver.o GameBoard.o MainAux.o main.o gurobiSolver.o
+EXEC = Final
+COMP_FLAG = -ansi -Wall -Wextra \
+-Werror -pedantic-errors 
+
+GUROBI_COMP = -I/usr/local/lib/gurobi563/include
+GUROBI_LIB = -L/usr/local/lib/gurobi563/lib -lgurobi56
+
+
+$(EXEC): $(OBJS)
+	$(CC) $(OBJS) $(GUROBI_LIB) -o $@ -lm
+main.o: main.c Game.h Parser.h Solver.h MainAux.h GameBoard.h gurobiSolver.h
+	$(CC) $(COMP_FLAG) -c $*.c -g
+Game.o: Game.c Game.h
+	$(CC) $(COMP_FLAG) -c $*.c -g
+Parser.o: Parser.c Parser.h
+	$(CC) $(COMP_FLAG) -c $*.c -g 
+Solver.o: Solver.c Solver.h
+	$(CC) $(COMP_FLAG) -c $*.c -g
+MainAux.o: MainAux.c MainAux.h
+	$(CC) $(COMP_FLAG) -c $*.c -g
+GameBoard.o: GameBoard.c GameBoard.h
+	$(CC) $(COMP_FLAG) -c $*.c -g
+gurobiSolver.o: gurobiSolver.c gurobiSolver.h
+	$(CC) $(COMP_FLAG) $(GUROBI_COMP) -c $*.c
+
+	
+clean:
+	rm -f $(OBJS) $(EXEC)
