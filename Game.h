@@ -37,6 +37,7 @@ struct Node* undo(struct Node *cur,GameBoard *board);
 struct Node* redo(struct Node *cur,GameBoard *board);
 int check_insert(GameBoard *board, int x, int y, int z);
 void undo_all(struct Node *cur,GameBoard *board);
+void exit_game(GameBoard * board, struct Command * comm);
 
 /* GAME_H_ */
 #endif
