@@ -61,8 +61,10 @@ int set(GameBoard *board, int x, int y, int z){
         board->node->next = NULL;
 		tmp = InsertAtTail(y,x,board->current[y-1][x-1],z);
 	}
+
 	board->node = tmp;
 	board->current[y-1][x-1] = z;
+	printf("Cell <%d,%d> set to %d\n", y, x, z);
 	(z != 0 ) ? board->num_of_used_cells += 1 : board->num_of_used_cells--;
 	printBoard(board,CURRENT);
 	return 1;
@@ -269,25 +271,28 @@ struct Node* undo(struct Node *cur,GameBoard *board){
 }
 
 void undo_all(struct Node *cur,GameBoard *board){
+/*
 	struct Node *prev = NULL;
+*/
 	while (cur->prev != NULL || cur->left != NULL) {
 		while (cur->left != NULL) {
 			board->current[cur->x - 1][cur->y - 1] = cur->before;
 			printf("Cell <%d,%d> set to %d\n", cur->x, cur->y, cur->before);
 			cur = cur->left;
 			board->num_of_used_cells -= 1;
-			if (cur->left == NULL) {
+			/*if (cur->left == NULL) {
 				board->current[cur->x - 1][cur->y - 1] = cur->before;
 				printf("Cell <%d,%d> set to %d\n", cur->x, cur->y, cur->before);
 				board->node = cur->prev;
 				board->num_of_used_cells -= 1;
-				prev = cur->prev;
 				continue;
-			}
+			}*/
 		}
-			board->current[cur->x - 1][cur->y - 1] = cur->before;
-			cur = prev;
-			board->num_of_used_cells -= 1;
+		printf("Cell <%d,%d> set to %d\n", cur->x, cur->y, cur->before);
+		board->current[cur->x-1][cur->y-1] = cur->before;
+		board->num_of_used_cells -= 1;
+		cur = cur->prev;
+
 
 	}
 	board->node = head;
@@ -339,7 +344,9 @@ int start_game(GameBoard *board,struct Command *com){
 	int h;
 */
 	char a[256];
-	int bool;
+/*
+	GameBoard* bool = NULL;
+*/
 /*	h = get_h();
 	solveCell_random(board,0,0);
 	fixHCells(board,h);*/
@@ -350,10 +357,10 @@ int start_game(GameBoard *board,struct Command *com){
 	/*fgets(a,256,stdin);*/
 		while(fgets(a,256,stdin) != NULL){
 			parse_command(a,com);
-			bool = execute(com,board);
-			if (bool == 4){
+			board = execute(com,board);
+			/*if (bool == 4){
 				return 0;
-			}
+			}*/
 			/*if (((bool == 0 || bool == 1 || bool == 2) && board->valid == 1) || bool == 5)
 				printf("Error: invalid command\n");*/
 			if (board->num_of_used_cells == board->N * board->N){
@@ -361,8 +368,8 @@ int start_game(GameBoard *board,struct Command *com){
 
 					/*board->valid = 1;*/
 				}
-			if (bool == 20)
-				return 0;
+			/*if (bool == 20)
+				return 0;*/
 
 		}
 		return 0;
@@ -375,3 +382,5 @@ void exit_game(GameBoard * board, struct Command * comm){
     freeCommand(comm);
     exit(1);
 }
+
+
