@@ -83,6 +83,9 @@ int check_insert(GameBoard *board, int x, int y, int z) {
 	}
 	board->current[y-1][x-1] = z;
 	(z != 0 ) ? board->num_of_used_cells += 1 : board->num_of_used_cells--;
+/*
+	printBoard(board,CURRENT);
+*/
 	return 1;
 
 }
@@ -391,8 +394,10 @@ int start_game(GameBoard *board,struct Command *com){
 /*Once Calles, recieves the active commands and board, frees memory and exits*/
 void exit_game(GameBoard * board, struct Command * comm){
     printf("Exiting...\n");
+	freeList(head->next);
     freeGameboard(board);
     freeCommand(comm);
+    free(head);
     exit(1);
 }
 
