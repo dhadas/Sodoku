@@ -42,6 +42,15 @@ struct Stack* createStack(int capacity)
 }
 
 /*
+ * Frees the Stack
+ * */
+
+void freeStack(struct Stack* stack){
+    free(stack->array);
+    free(stack);
+}
+
+/*
 // Stack is full when top is equal to the last index
 */
 int isFull(struct Stack* stack)
@@ -298,13 +307,13 @@ GameBoard *execute(struct Command *com,GameBoard *board){
             Save(board, fptr);break;
         case 7:
             if (is_valid_file(com->x) == TRUE) {
-                freeGameboard(board); board = Load(com->x);board->node = head; board->mode = 1;validate_board(board); start_game(board, com);
+                freeGameboard(board);freeList(head->next);head->next = NULL;board = Load(com->x);board->node = head; board->mode = 1;validate_board(board);
             } else { printf("Error: File doesn't exist or cannot be opened\n");} return board;
         case 8:
             if (com->x == NULL)
                 board->mode = 2;
             else { if (is_valid_file(com->x) == TRUE) {
-                    freeGameboard(board); board = Load(com->x); board->mode = 2; start_game(board, com); } else{printf("Error: File cannot be opened\n");}}return board;
+                    freeGameboard(board);  freeList(head->next);head->next = NULL;board = Load(com->x); board->mode = 2; start_game(board, com); } else{printf("Error: File cannot be opened\n");}}return board;
         case 9:
             if (board->node != NULL) { redo(board->node, board);
                 printBoard(board, CURRENT); }
@@ -371,8 +380,6 @@ void freeGameboard(GameBoard* board){
     }
     free(board->solution);
     free(board->current);
-    freeList(head->next);
-    head->next = NULL;
     free(board);
 }
 
