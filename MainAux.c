@@ -313,7 +313,7 @@ GameBoard *execute(struct Command *com,GameBoard *board){
             if (board->node == head) { printf("There are no moves to undo.\n"); }
             else { undo(board->node, board); } printBoard(board, CURRENT);break;
         case 11:
-            printf("%d\n", solveEx(board));break;
+            num_solutions(solveEx(board));break;
         case 12:
             if (board->mode != 2 || com->x == '\0' || com->y == '\0'){
                 printf("Error:Invalid command\n"); return board; }
@@ -466,3 +466,15 @@ int is_board_erroneous(GameBoard * board){
     return FALSE;
 }
 
+
+void num_solutions(int num){
+
+    printf("Number of solutions: %d\n", num);
+
+    if(num > 1){
+        printf("The puzzle has more than 1 solution, try to edit it further\n");
+    }
+    else if(num == 1){
+        printf("This is a good board!\n");
+    }
+}
