@@ -348,6 +348,7 @@ int start_game(GameBoard *board,struct Command *com){
 	int h;
 */
 	char a[256];
+	int j = 0;
 /*
 	GameBoard* bool = NULL;
 */
@@ -359,7 +360,15 @@ int start_game(GameBoard *board,struct Command *com){
 	board->node = head;
 	printBoard(board, CURRENT);
 	/*fgets(a,256,stdin);*/
+
 		while(fgets(a,256,stdin) != NULL){
+		    /*Make sure EOF wasnt inputted by user*/
+		    while(a[j] != '\0'){
+		        if(a[j] == EOF)
+		            exit_game(board, com);
+		        j++;
+		    }
+
 			parse_command(a,com);
 			board = execute(com,board);
 			/*if (bool == 4){
