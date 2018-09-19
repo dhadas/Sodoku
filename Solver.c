@@ -182,7 +182,7 @@ int solveEx(GameBoard* board) {
             if (stack->array[stack->top]->val >= board->N){
                 board->current[stack->array[stack->top]->y][stack->array[stack->top]->x] = 0;
                 --board->num_of_used_cells;
-                pop(stack);
+                free(pop(stack));
                 if (isEmpty(stack) == FALSE) {
                     ++stack->array[stack->top]->val;
                 }
@@ -212,6 +212,8 @@ int solveEx(GameBoard* board) {
         }
 
     }
+    freeStack(stack);
+    printf("%d\n",board->num_of_used_cells);
     return count;
 }
 

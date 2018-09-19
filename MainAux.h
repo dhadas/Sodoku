@@ -63,6 +63,7 @@ int is_board_erroneous(GameBoard * board);
 
 
 struct Node* InsertAtRight(int x, int y, int before, int after);
+void freeStack(struct Stack* stack);
 void freeListWide(struct Node *node);
 void num_solutions(int num);
 /* MAINAUX_H_ */
