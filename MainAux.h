@@ -35,7 +35,7 @@ struct Command;
 int check_block(GameBoard *board, int x,int y,int z, int *point);
 int check_row(GameBoard *board,int y, int z, int * point);
 int check_column(int *array, int z, int * point, int n);
-int execute(struct Command *com,GameBoard *board);
+GameBoard* execute(struct Command *com,GameBoard *board);
 struct Command *new_command ();
 void freeCommand(struct Command *com);
 void freeGameboard(GameBoard* board);

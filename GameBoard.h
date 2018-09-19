@@ -36,7 +36,7 @@ void getColOptions(int** boardPTR,int col,int* opts, int dim);
 void getBlockOptions(int** boardPTR,int row, int col,int* opts, int block_rows, int block_cols);
 int* getOptions(GameBoard* board, int row, int col, int boardID);
 void fillOpts(int* opts, int len, int num );
-int * makeContinous(int* opts, int len, int *finalOpts);
+void makeContinous(int* opts, int len, int *finalOpts);
 void save_line(int** boardArr , int i, int N, FILE *file,int mode);
 
 /********************************************************************************/

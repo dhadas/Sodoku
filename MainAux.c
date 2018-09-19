@@ -273,23 +273,25 @@ int is_valid_file(char *path) {
  * executes the command, depending in the stdin input and game situation.
  */
 
-int execute(struct Command *com,GameBoard *board){
+GameBoard *execute(struct Command *com,GameBoard *board){
     int c = *com->func; int x,y,z; FILE *fptr;
-    if((board->mode == 0 && (c != 4 && c != 7 && c != 8)) || c == 5){  printf("Error:Invalid command\n");return c; }
+    if((board->mode == 0 && (c != 4 && c != 7 && c != 8)) || c == 5){  printf("Error:Invalid command\n");return board; }
     switch(c) {
         case 0:
-            if (board->mode != 1){ printf("Error:Invalid command\n");return c; }
+            if (board->mode != 1 || com->x == '\0' || com->y == '\0'){ printf("Error:Invalid command\n");return board; }
             if (board->valid == 0) {
                 if (is_integer(com->x) != 0 && is_integer(com->y) != 0) {
                     x = atoi(com->x); y = atoi(com->y); hint(board, x, y); }}break;
         case 1:
-            if (board->valid == 0) {
+            if (com->x == '\0' || com->y == '\0' || com->z == '\0') {
+                printf("Error:Invalid command\n"); return board;}
                 if (is_integer(com->x) != 0 && is_integer(com->y) != 0 && is_integer(com->z) != 0) {
-                    x = atoi(com->x); y = atoi(com->y); z = atoi(com->z); set(board, x, y, z); }}break;
+                    x = atoi(com->x); y = atoi(com->y); z = atoi(com->z); set(board, x, y, z); }break;
         case 2:
-            if (board->valid == 0) validate_board(board);break;
+            validate_board(board);break;
         case 3:
-            undo_all(board->node,board);printBoard(board,CURRENT);Print();freeList(head->next);Print();break;
+            Print();undo_all(board->node,board);printBoard(board,CURRENT);
+            freeList(head->next);break;
         case 6:
             if (board->mode == 0) break;
             fptr = fopen(com->x, "w");
@@ -297,12 +299,12 @@ int execute(struct Command *com,GameBoard *board){
         case 7:
             if (is_valid_file(com->x) == TRUE) {
                 freeGameboard(board); board = Load(com->x);board->node = head; board->mode = 1;validate_board(board); start_game(board, com);
-            } else { printf("Error: File doesn't exist or cannot be opened\n"); }break;
+            } else { printf("Error: File doesn't exist or cannot be opened\n");} return board;
         case 8:
             if (com->x == NULL)
                 board->mode = 2;
             else { if (is_valid_file(com->x) == TRUE) {
-                    freeGameboard(board); board = Load(com->x); board->mode = 2; start_game(board, com); } else{printf("Error: File cannot be opened\n");}}break;
+                    freeGameboard(board); board = Load(com->x); board->mode = 2; start_game(board, com); } else{printf("Error: File cannot be opened\n");}}return board;
         case 9:
             if (board->node != NULL) { redo(board->node, board);
                 printBoard(board, CURRENT); }
@@ -313,22 +315,22 @@ int execute(struct Command *com,GameBoard *board){
         case 11:
             printf("%d\n", solveEx(board));break;
         case 12:
-            if (board->mode != 2){
-                printf("Error:Invalid command\n"); return c; }
+            if (board->mode != 2 || com->x == '\0' || com->y == '\0'){
+                printf("Error:Invalid command\n"); return board; }
             if (is_integer(com->x) != 0 && is_integer(com->y)) {
                 board = Generate(board, atoi(com->x), atoi(com->y), 0); printBoard(board,CURRENT); }break;
         case 13:
             if (board->mode != 1){
-                printf("Error:Invalid command\n"); return c; } autofill(board);break;
+                printf("Error:Invalid command\n"); return board; } autofill(board);break;
         case 14:
-            if (board->mode != 1){
-                printf("Error:Invalid command\n");  return c; } mark_errors(board,atoi(com->x));break;
+            if (board->mode != 1 || com->x == '\0'){
+                printf("Error:Invalid command\n");  return board; } mark_errors(board,atoi(com->x));break;
         case 15:
             printBoard(board,CURRENT);break;
         case 4:
             exit_game(board, com);
             break; }
-    return c; }
+    return board; }
 
 /*
  * Creates a Command and alloctes its memory.
