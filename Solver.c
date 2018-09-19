@@ -158,7 +158,8 @@ int solveEx(GameBoard* board) {
     int j = 0;
     int count = 0;
     struct Stack* stack;
-    struct Tuple* tuple = createTuple(0,0,0);
+    struct Tuple* tuple;
+    printf("%d\n",board->num_of_used_cells);
 
     if((is_board_erroneous((board)) == TRUE)) {
         printf("Error: board contains erroneous values\n");

@@ -83,6 +83,9 @@ int check_insert(GameBoard *board, int x, int y, int z) {
 	}
 	board->current[y-1][x-1] = z;
 	(z != 0 ) ? board->num_of_used_cells += 1 : board->num_of_used_cells--;
+/*
+	printBoard(board,CURRENT);
+*/
 	return 1;
 
 }

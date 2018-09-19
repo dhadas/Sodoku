@@ -322,7 +322,7 @@ GameBoard *execute(struct Command *com,GameBoard *board){
             if (board->node == head) { printf("There are no moves to undo.\n"); }
             else { undo(board->node, board); } printBoard(board, CURRENT);break;
         case 11:
-            num_solutions(solveEx(board));break;
+            printf("%d\n", solveEx(board));break;
         case 12:
             if (board->mode != 2 || com->x == '\0' || com->y == '\0'){
                 printf("Error:Invalid command\n"); return board; }
