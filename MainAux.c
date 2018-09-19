@@ -326,6 +326,7 @@ int execute(struct Command *com,GameBoard *board){
         case 15:
             printBoard(board,CURRENT);break;
         case 4:
+            exit_game(board, com);
             break; }
     return c; }
 
