@@ -1,3 +1,4 @@
+
 /*
  * mainAux.c
  *
@@ -39,15 +40,6 @@ struct Stack* createStack(int capacity)
     stack->top = -1;
     stack->array = malloc(stack->capacity * sizeof(struct Tuple) * stack->capacity);
     return stack;
-}
-
-/*
- * Frees the Stack
- * */
-
-void freeStack(struct Stack* stack){
-    free(stack->array);
-    free(stack);
 }
 
 /*
@@ -304,16 +296,16 @@ GameBoard *execute(struct Command *com,GameBoard *board){
         case 6:
             if (board->mode == 0) break;
             fptr = fopen(com->x, "w");
-            Save(board, fptr);break;
+            Save(board, fptr, com->x);break;
         case 7:
             if (is_valid_file(com->x) == TRUE) {
-                freeGameboard(board);freeList(head->next);head->next = NULL;board = Load(com->x);board->node = head; board->mode = 1;validate_board(board);
+                freeGameboard(board); board = Load(com->x);board->node = head; board->mode = 1;validate_board(board); start_game(board, com);
             } else { printf("Error: File doesn't exist or cannot be opened\n");} return board;
         case 8:
             if (com->x == NULL)
                 board->mode = 2;
             else { if (is_valid_file(com->x) == TRUE) {
-                    freeGameboard(board);  freeList(head->next);head->next = NULL;board = Load(com->x); board->mode = 2; start_game(board, com); } else{printf("Error: File cannot be opened\n");}}return board;
+                    freeGameboard(board); board = Load(com->x); board->mode = 2; start_game(board, com); } else{printf("Error: File cannot be opened\n");}}return board;
         case 9:
             if (board->node != NULL) { redo(board->node, board);
                 printBoard(board, CURRENT); }
@@ -322,7 +314,7 @@ GameBoard *execute(struct Command *com,GameBoard *board){
             if (board->node == head) { printf("There are no moves to undo.\n"); }
             else { undo(board->node, board); } printBoard(board, CURRENT);break;
         case 11:
-            printf("%d\n", solveEx(board));break;
+            num_solutions(solveEx(board));break;
         case 12:
             if (board->mode != 2 || com->x == '\0' || com->y == '\0'){
                 printf("Error:Invalid command\n"); return board; }
@@ -380,6 +372,8 @@ void freeGameboard(GameBoard* board){
     }
     free(board->solution);
     free(board->current);
+    freeList(head->next);
+    head->next = NULL;
     free(board);
 }
 

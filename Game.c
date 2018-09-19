@@ -141,7 +141,7 @@ int validate_board(GameBoard *board){
  * Saves the game
  */
 
-void Save(GameBoard* board, FILE *file) {
+void Save(GameBoard* board, FILE *file, char * name) {
 
 	int i = 0;
 	int n = board->N;
@@ -153,11 +153,15 @@ void Save(GameBoard* board, FILE *file) {
 	{
 		printf("Error:File cannot be created or modified\n");
 	}
+
+
 	fprintf(file,"%d %d\n",board->block_rows,board->block_cols);
 	for(; i < n; i++){
 		save_line(board->current, i, board->N,file,board->mode);
 	}
 	fclose(file);
+
+	printf("Saved to: %s\n", name);
 }
 /*
  * loads the new board
@@ -347,6 +351,7 @@ int start_game(GameBoard *board,struct Command *com){
 	int h;
 */
 	char a[256];
+	int j = 0;
 /*
 	GameBoard* bool = NULL;
 */
@@ -358,7 +363,15 @@ int start_game(GameBoard *board,struct Command *com){
 	board->node = head;
 	printBoard(board, CURRENT);
 	/*fgets(a,256,stdin);*/
+
 		while(fgets(a,256,stdin) != NULL){
+		    /*Make sure EOF wasnt inputted by user*/
+		    while(a[j] != '\0'){
+		        if(a[j] == EOF)
+		            exit_game(board, com);
+		        j++;
+		    }
+
 			parse_command(a,com);
 			board = execute(com,board);
 			/*if (bool == 4){

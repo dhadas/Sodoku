@@ -18,7 +18,8 @@ void hint(GameBoard *board, int x, int y);
 void restart(GameBoard *board,struct Command *com);
 int validate_board(GameBoard *board);
 int start_game(GameBoard *board,struct Command *com);
-void Save(GameBoard* board, FILE *file);
+/*void Save(GameBoard* board, FILE *file);*/
+void Save(GameBoard* board, FILE *file, char * name);
 GameBoard* Load(char *path);
 
 
