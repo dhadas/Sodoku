@@ -189,11 +189,10 @@ int autofill(GameBoard * board){
 	int N = board->N;
 	int row = 0;
 	int col = 0;
-	int * options;
 	int len;
+	int * options;
 	int bool  = 0;
 	struct Node *tmp = NULL;
-	/*int j = 0;*/
 	GameBoard * copy;
 
 	printf("Preparing to solve\n");
@@ -222,6 +221,7 @@ int autofill(GameBoard * board){
 					bool = 1;
 					board->current[row][col] = options[0];
 					board->node = tmp;
+					free(options);
 					continue;
 				}
 				if (bool == 1) {
@@ -237,6 +237,7 @@ int autofill(GameBoard * board){
 		}
 		col = 0;
 	}
+	freeGameboard(copy);
 	printBoard(board,CURRENT);
 	return TRUE;
 }
@@ -374,5 +375,3 @@ void exit_game(GameBoard * board, struct Command * comm){
     freeCommand(comm);
     exit(1);
 }
-
-

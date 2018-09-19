@@ -155,13 +155,15 @@ int* getOptions(GameBoard* board, int row, int col, int boardID){
     int* finalOpts;
     int N = board->N;
     boardPTR = (boardID == CURRENT) ? ((int**) board->current ) : ((int**) board->solution);
-    opts = malloc((1+N)* sizeof(int));
+
+    opts = (int*)malloc((1+N)* sizeof(int));
     if (opts == NULL){
         	printf("Error: malloc has failed\n");
             return NULL;
         }
+
     finalOpts = (int*)calloc(sizeof(int), (N+1));
-    if (opts == NULL){
+    if (finalOpts == NULL){
         	printf("Error: calloc has failed\n");
             return NULL;
         }
@@ -175,7 +177,7 @@ int* getOptions(GameBoard* board, int row, int col, int boardID){
     getColOptions(boardPTR, col, opts, N);
     getBlockOptions(boardPTR, row, col, opts, board->block_rows, board->block_cols);
 
-    finalOpts = makeContinous(opts, N, finalOpts);
+    makeContinous(opts, N, finalOpts);
 
     free(opts);
 
@@ -184,7 +186,7 @@ int* getOptions(GameBoard* board, int row, int col, int boardID){
 
 
 /*Compress array and prepare it for randomized Solver*/
-int  * makeContinous(int * opts, int len, int * finalOpts){
+void makeContinous(int * opts, int len, int * finalOpts){
 
     int i = 1;
     int j = 0;
@@ -196,8 +198,6 @@ int  * makeContinous(int * opts, int len, int * finalOpts){
         }
 
     }
-
-    return finalOpts;
 
 }
 
